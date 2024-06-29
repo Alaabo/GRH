@@ -9,7 +9,7 @@ import lombok.NoArgsConstructor;
 @NoArgsConstructor
 @Data
 @Entity
-@Table(name ="services")
+@Table(name ="Controllers")
 
 public class service {
     @Id

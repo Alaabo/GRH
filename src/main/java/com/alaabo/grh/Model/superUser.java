@@ -5,11 +5,9 @@ import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 
-@AllArgsConstructor
-@NoArgsConstructor
-@Data
+
 @Entity
-@Table(name ="SuperUsers")
+@Table(name = "super_users")
 
 public class superUser {
     public int getId() {
@@ -52,7 +50,7 @@ public class superUser {
     private String password;
     @Column(name = "username")
     private String username;
-    @Column(name="service")
+    @Column(name="superUserService")
     private String service;
 
 
