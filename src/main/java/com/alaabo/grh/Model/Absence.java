@@ -11,7 +11,7 @@ import java.util.Date;
 @Data
 @Entity
 @Table(name ="Absences")
-public class absence {
+public class Absence {
     @Id
     @GeneratedValue(strategy = GenerationType.AUTO)
     @Column(name = "id")
@@ -69,8 +69,8 @@ public class absence {
 
     @Column(name="motife")
     private String motife;
-//    @Column(name="user")
-//    private String  user;
+//    @Column(name="User")
+//    private String  User;
     @Column(name="debut")
     private Date debut;
     @Column(name="fin")

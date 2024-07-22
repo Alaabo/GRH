@@ -11,10 +11,10 @@ import java.util.Date;
 
 @AllArgsConstructor
 @NoArgsConstructor
-
+@Data
 @Entity
 @Table(name ="users")
-public class user {
+public class User {
     public int getId() {
         return id;
     }

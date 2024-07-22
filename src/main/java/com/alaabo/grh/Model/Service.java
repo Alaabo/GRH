@@ -11,7 +11,7 @@ import lombok.NoArgsConstructor;
 @Entity
 @Table(name ="Controllers")
 
-public class service {
+public class Service {
     @Id
     @GeneratedValue(strategy = GenerationType.AUTO)
     @Column(name = "id")

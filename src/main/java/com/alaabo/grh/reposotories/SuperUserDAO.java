@@ -1,12 +1,9 @@
 package com.alaabo.grh.reposotories;
 
-import com.alaabo.grh.Model.user;
+import com.alaabo.grh.Model.SuperUser;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.stereotype.Repository;
 
-
 @Repository
-public interface userDao extends JpaRepository<user , Integer> {
-    //TODO:must complete .env folder
-
+public interface SuperUserDAO extends JpaRepository<SuperUser, Integer> {
 }

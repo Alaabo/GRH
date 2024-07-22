@@ -1,15 +1,13 @@
 package com.alaabo.grh.Model;
 
 import jakarta.persistence.*;
-import lombok.AllArgsConstructor;
 import lombok.Data;
-import lombok.NoArgsConstructor;
 
 
 @Entity
 @Table(name = "super_users")
-
-public class superUser {
+@Data
+public class SuperUser {
     public int getId() {
         return id;
     }
@@ -50,7 +48,7 @@ public class superUser {
     private String password;
     @Column(name = "username")
     private String username;
-    @Column(name="superUserService")
+    @Column(name="SuperUserService")
     private String service;
 
 

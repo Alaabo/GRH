@@ -3,7 +3,7 @@ package com.alaabo.grh.services;
 import org.springframework.stereotype.Service;
 
 @Service
-public class userService {
+public class UserService {
 
 
 }
