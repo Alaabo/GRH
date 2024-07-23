@@ -3,63 +3,71 @@ package com.alaabo.grh.Controllers;
 import com.alaabo.grh.Model.SuperUser;
 import com.alaabo.grh.reposotories.SuperUserDAO;
 import com.alaabo.grh.services.Encryptor;
+import org.springframework.http.HttpStatus;
 import org.springframework.web.bind.annotation.*;
 
-import java.util.Optional;
-
 @RestController
-@RequestMapping("/api/v1/superusers/")
+@RequestMapping("/api/v1/superusers")
 public class SuperUserController {
 
-    private final SuperUserDAO SUR;
+    private final SuperUserDAO superUserDAO;
 
-    public SuperUserController(SuperUserDAO SUR) {
-        this.SUR = SUR;
+    public SuperUserController(SuperUserDAO superUserDAO) {
+        this.superUserDAO = superUserDAO;
     }
 
-    private SuperUser _temp(SuperUser superuser) throws Exception {
+    private SuperUser encryptPassword(SuperUser superUser) throws Exception {
         SuperUser temp = new SuperUser();
-        temp.setUsername(superuser.getUsername());
-        temp.setPassword(Encryptor.encrypt(superuser.getPassword()));
-        temp.setService(superuser.getService());
+        temp.setUsername(superUser.getUsername());
+        temp.setPassword(Encryptor.encrypt(superUser.getPassword()));
+        temp.setService(superUser.getService());
         return temp;
     }
 
     @GetMapping("/getAll")
-
-    public @ResponseBody Iterable<SuperUser> getUsers() {
-
-        return SUR.findAll();
+    @ResponseStatus(HttpStatus.OK)
+    public Iterable<SuperUser> getAllUsers() {
+        return superUserDAO.findAll();
     }
+
     @GetMapping("/{id}")
-
-    public @ResponseBody Optional<SuperUser> getUser(@PathVariable int id) {
-
-        return SUR.findById(id);
+    @ResponseStatus(HttpStatus.OK)
+    public SuperUser getUser(@PathVariable int id) {
+        return superUserDAO.findById(id).orElseThrow(() -> new RuntimeException("SuperUser not Found or doesn't exist"));
     }
-    @PostMapping("/regNew")
-    public void authenticate(@RequestBody SuperUser superuser){
-        try{
-            SUR.save(_temp(superuser));
-        }catch(Exception e){
+
+    @PostMapping("/new")
+    @ResponseStatus(HttpStatus.CREATED)
+    public void createUser(@RequestBody SuperUser superUser) {
+        try {
+            superUserDAO.save(encryptPassword(superUser));
+        } catch (Exception e) {
             throw new RuntimeException("Error while registering new superuser", e);
         }
     }
-    @DeleteMapping("/{id}")
-    public void delete (@PathVariable int id){
-        try{
-            SUR.deleteById(id);
-        }catch(Exception e){
-            throw new RuntimeException("Error while deleting password", e);
+
+    @PutMapping("/update/{id}")
+    @ResponseStatus(HttpStatus.OK)
+    public void updateUser(@PathVariable int id, @RequestBody SuperUser superUser) {
+        if (superUserDAO.existsById(id)) {
+            try {
+                superUser.setId(id);
+                superUserDAO.save(encryptPassword(superUser));
+            } catch (Exception e) {
+                throw new RuntimeException("Error while updating superuser", e);
+            }
+        } else {
+            throw new RuntimeException("SuperUser does not exist");
         }
     }
-    @PostMapping("/update")
-    public void update (@RequestBody SuperUser superuser) throws Exception {
-       if(SUR.existsById(superuser.getId())){
-           SUR.save(_temp(superuser));
-       }else{
-           throw new RuntimeException("No Such S.User Exist");
-       }
-    }
 
+    @DeleteMapping("/{id}")
+    @ResponseStatus(HttpStatus.NO_CONTENT)
+    public void deleteUser(@PathVariable int id) {
+        try {
+            superUserDAO.deleteById(id);
+        } catch (Exception e) {
+            throw new RuntimeException("Error while deleting superuser", e);
+        }
+    }
 }
