@@ -48,7 +48,7 @@ public class Encryptor {
     }
 
     private static SecretKey getKeyFromEnv() throws Exception {
-        String encodedKey = System.getenv("ENCRYPTION_KEY");
+        String encodedKey = System.getProperty("ENCRYPTION_KEY");
         if (encodedKey == null) {
             throw new IllegalStateException("Environment variable ENCRYPTION_KEY not set");
         }
