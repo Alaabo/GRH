@@ -3,7 +3,6 @@ package com.alaabo.grh.services;
 import org.springframework.stereotype.Service;
 
 import javax.crypto.Cipher;
-import javax.crypto.KeyGenerator;
 import javax.crypto.SecretKey;
 import javax.crypto.spec.GCMParameterSpec;
 import javax.crypto.spec.SecretKeySpec;
@@ -47,7 +46,7 @@ public class Encryptor {
         return new String(decryptedBytes);
     }
 
-    private static SecretKey getKeyFromEnv() throws Exception {
+    private static SecretKey getKeyFromEnv() {
         String encodedKey = System.getProperty("ENCRYPTION_KEY");
         if (encodedKey == null) {
             throw new IllegalStateException("Environment variable ENCRYPTION_KEY not set");
@@ -56,13 +55,13 @@ public class Encryptor {
         return new SecretKeySpec(decodedKey, 0, decodedKey.length, "AES");
     }
 
-    public static SecretKey generateKey() throws Exception {
-        KeyGenerator keyGen = KeyGenerator.getInstance("AES");
-        keyGen.init(256); // Key size
-        SecretKey key = keyGen.generateKey();
-        System.out.println("Base64 Encoded Key: " + Base64.getEncoder().encodeToString(key.getEncoded()));
-        return key;
-    }
+//    public static SecretKey generateKey() throws Exception {
+//        KeyGenerator keyGen = KeyGenerator.getInstance("AES");
+//        keyGen.init(256); // Key size
+//        SecretKey key = keyGen.generateKey();
+//        System.out.println("Base64 Encoded Key: " + Base64.getEncoder().encodeToString(key.getEncoded()));
+//        return key;
+//    }
 
     private static byte[] generateIV() {
         byte[] iv = new byte[IV_SIZE];
