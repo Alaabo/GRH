@@ -15,6 +15,7 @@ public class SuperUserController {
     private final SuperUserDAO superUserDAO;
     private static final Logger logger = LoggerFactory.getLogger(SuperUserController.class);
 
+
     public SuperUserController(SuperUserDAO superUserDAO) {
         this.superUserDAO = superUserDAO;
     }
